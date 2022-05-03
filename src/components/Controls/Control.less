@@ -1,0 +1,31 @@
+@borderColor: #dde3f9;
+@hoverBack: #a1b3f1;
+
+.button-control {
+    background: inherit;
+    border-radius: 12px;
+    border: 1px solid @borderColor;
+    padding: 3px 10px;
+
+    &:hover {
+        background: @hoverBack;
+    }
+
+    &:active {
+        background: @borderColor;
+    }
+
+    &.without-border {
+        border: 0;
+    }
+
+    &.passive {
+        &:hover, &:active {
+            background: none;
+        }
+    }
+
+    &.primary {
+        background: @borderColor;
+    }
+}
