@@ -1,7 +1,9 @@
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import React = require("react");
+import { GetIssues, IData } from "../../api/SysApi";
 import { Button } from "../Controls/Button";
+import { RegisterTable } from "../RegisterTable/RegisterTable";
 import "./Content.less";
 
 
@@ -9,6 +11,9 @@ import "./Content.less";
 export class Content extends React.Component<{}, {}> {
   @observable
   calendarMode: boolean = false;
+
+  @observable
+  data: Array<IData> = [];
 
   @observable
   action: "new" | "edit" = "new";
@@ -19,7 +24,7 @@ export class Content extends React.Component<{}, {}> {
 
   @action
   loadData() {
-    // TODO
+    GetIssues().then(res => (this.data = res));
   }
 
   @action
@@ -55,7 +60,16 @@ export class Content extends React.Component<{}, {}> {
             </div>
           </div>
         </div>
-        <div className="content-data"></div>
+        <div className="content-data">
+          {this.calendarMode ? (
+            null
+          ) : (
+            <RegisterTable
+              data={this.data}
+              onObjectClick={null}
+            />
+          )}
+        </div>
       </div>
     )
   }

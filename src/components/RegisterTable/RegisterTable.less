@@ -1,0 +1,34 @@
+@backColor: #fff;
+@borderColor: #dde3f9;
+
+
+.ReactTable.custom-react-table {
+  height: 100%;
+  background: @backColor;
+  padding: 20px;
+  border: 0;
+
+  .rt-thead {
+    border: 0;
+    box-shadow: none;
+    border-bottom: 1px solid @borderColor;
+
+    .rt-th {
+      text-align: left;
+      border: 0;
+      font-weight: 600;
+    }
+  }
+
+  .rt-tbody {
+    .rt-tr-group {
+      .rt-td {
+        border: 0;
+      }
+
+      &:last-child {
+        border-bottom: 1px solid @borderColor;
+      }
+    }
+  }
+}
