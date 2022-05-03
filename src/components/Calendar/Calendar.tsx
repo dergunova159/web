@@ -30,7 +30,7 @@ export class Calendar extends React.Component<CalendarProps> {
         right: 'today prev,next'
       },
       themeSystem: "bootstrap3",
-      height: "auto",
+      height: "100vh",
       defaultView: "month",
       locale: "ru",
       nowIndicator: true,

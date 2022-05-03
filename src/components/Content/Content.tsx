@@ -1,9 +1,10 @@
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import React = require("react");
-import { GetIssues, IData } from "../../api/SysApi";
+import { DeleteIssue, EditIssue, GetIssues, IData, NewIssue } from "../../api/SysApi";
 import { Calendar } from "../Calendar/Calendar";
 import { Button } from "../Controls/Button";
+import { TextControl } from "../Controls/TextControl";
 import { Modal } from "../Modal/Modal";
 import { RegisterTable } from "../RegisterTable/RegisterTable";
 import "./Content.less";
@@ -16,7 +17,7 @@ export class Content extends React.Component<{}, {}> {
 
   @observable
   modalOpen: boolean = false;
-  
+
   @observable
   data: Array<IData> = [];
 
@@ -53,6 +54,34 @@ export class Content extends React.Component<{}, {}> {
     this.action = "edit";
   }
 
+  @action
+  onSave() {
+    if (this.action === "new") {
+      NewIssue(this.lastObject).then(res => {
+        this.loadData();
+      });
+    }
+    else if (this.action === "edit") {
+      EditIssue(this.lastObject).then(res => {
+        this.loadData();
+      })
+    }
+    this.onModalClose();
+  }
+
+  @action
+  onDelete() {
+    DeleteIssue(this.lastObject).then(res => {
+      this.loadData();
+    })
+    this.onModalClose();
+  }
+
+  @action
+  changeOption(option: string, value: any) {
+    this.lastObject[option] = value;
+  }
+
   objectContent() {
     if (!this.modalOpen) {
       return null;
@@ -64,7 +93,38 @@ export class Content extends React.Component<{}, {}> {
         width={400}
         title={"Информация о задаче"}
       >
-        Test modal
+        <div className="object-content container-fluid">
+          <div className="row">
+            <div className="col-xs-12">
+              <TextControl label={"Наименование"} value={this.lastObject.name} onChange={val => this.changeOption("name", val)} />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-xs-6">
+              <TextControl label={"Дата начала"} value={this.lastObject.start} onChange={val => this.changeOption("start", val)} />
+            </div>
+            <div className="col-xs-6">
+              <TextControl label={"Дата конца"} value={this.lastObject.end} onChange={val => this.changeOption("end", val)} />
+            </div>
+          </div>
+          <div className="row object-content-footer">
+            <div className="col-xs-12">
+              {this.action === "edit" ? (
+                <Button
+                  onClick={this.onDelete.bind(this)}
+                  content={"Удалить"}
+                  primary={true}
+                />
+              ) : null}
+              <Button
+                onClick={this.onSave.bind(this)}
+                content={"Сохранить"}
+                primary={true}
+                style={{ float: "right" }}
+              />
+            </div>
+          </div>
+        </div>
       </Modal>
     )
   }
@@ -77,6 +137,8 @@ export class Content extends React.Component<{}, {}> {
   @action
   newClick() {
     this.action = "new";
+    this.modalOpen = true;
+    this.lastObject = {};
   }
 
   render() {
@@ -101,15 +163,16 @@ export class Content extends React.Component<{}, {}> {
           {this.calendarMode ? (
             <Calendar
               data={this.data}
-              onObjectClick={null}
+              onObjectClick={this.objectClick.bind(this)}
             />
           ) : (
             <RegisterTable
               data={this.data}
-              onObjectClick={null}
+              onObjectClick={this.objectClick.bind(this)}
             />
           )}
         </div>
+        {this.objectContent()}
       </div>
     )
   }

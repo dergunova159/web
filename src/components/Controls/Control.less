@@ -29,3 +29,23 @@
         background: @borderColor;
     }
 }
+
+.text-control {
+    display: flex;
+    flex-direction: column;
+
+    label {
+        color: #a4a4a4;
+    }
+
+    input[type="text"] {
+        border: 1px solid @borderColor;
+        box-shadow: none;
+        padding: 5px 12px;
+        border-radius: 4px;
+
+        &:active {
+            border-color: @hoverBack;
+        }
+    }
+}

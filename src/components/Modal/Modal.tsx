@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import React = require("react");
-import { Button } from "../components/Controls/Button";
+import { Button } from "../Controls/Button";
 import "./Modal.less";
 
 export interface ModalProps {
