@@ -6,7 +6,7 @@ import React = require("react");
 import "./App.less"
 
 import { action, observable } from "mobx";
-import { Header } from "./Header/Header";
+import { Header } from "./components/Header/Header";
 import { Content } from "./components/Content/Content";
 import { observer } from "mobx-react";
 

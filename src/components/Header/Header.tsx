@@ -1,8 +1,8 @@
 import { action } from "mobx";
 import { observer } from "mobx-react";
 import React = require("react");
-import { THEMES } from "../App";
-import { Button } from "../components/Controls/Button";
+import { THEMES } from "../../App";
+import { Button } from "../Controls/Button";
 import "./Header.less";
 
 export interface HeaderProps {

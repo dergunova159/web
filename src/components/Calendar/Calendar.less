@@ -1,0 +1,48 @@
+@borderColor: #dde3f9;
+
+.fc {
+    padding: 20px;
+
+    * {
+        border-color: @borderColor !important;
+    }
+
+    .fc-toolbar.fc-header-toolbar {
+        .fc-left h2 {
+            text-transform: capitalize;
+        }
+    }
+
+    .fc-head-container {
+        border-bottom-width: 1px;
+
+        .fc-day-header {
+            padding: 5px 0;
+        }
+    }
+
+    .fc-row {
+        border: 0;
+
+        .table-bordered {
+            border: 0;
+        }
+
+        .fc-day {
+
+            &.fc-today {
+                background: @borderColor;
+            }
+        }
+    }
+
+    .fc-event-container {
+        .fc-day-grid-event {
+            padding: 5px;
+            border-radius: 6px;
+            border: 0;
+            background: #7e9aed;
+            text-decoration: none;
+        }
+    }
+}

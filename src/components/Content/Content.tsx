@@ -2,7 +2,9 @@ import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import React = require("react");
 import { GetIssues, IData } from "../../api/SysApi";
+import { Calendar } from "../Calendar/Calendar";
 import { Button } from "../Controls/Button";
+import { Modal } from "../Modal/Modal";
 import { RegisterTable } from "../RegisterTable/RegisterTable";
 import "./Content.less";
 
@@ -13,7 +15,13 @@ export class Content extends React.Component<{}, {}> {
   calendarMode: boolean = false;
 
   @observable
+  modalOpen: boolean = false;
+  
+  @observable
   data: Array<IData> = [];
+
+  @observable
+  lastObject: IData = null;
 
   @observable
   action: "new" | "edit" = "new";
@@ -30,6 +38,35 @@ export class Content extends React.Component<{}, {}> {
   @action
   changeMode() {
     this.calendarMode = !this.calendarMode;
+  }
+
+  @action
+  onModalClose() {
+    this.modalOpen = false;
+    this.lastObject = null;
+  }
+
+  @action
+  objectClick(id: number) {
+    this.modalOpen = true;
+    this.lastObject = { ...this.data.find(el => el.id === id) };
+    this.action = "edit";
+  }
+
+  objectContent() {
+    if (!this.modalOpen) {
+      return null;
+    }
+    return (
+      <Modal
+        open={this.modalOpen}
+        onClose={this.onModalClose.bind(this)}
+        width={400}
+        title={"Информация о задаче"}
+      >
+        Test modal
+      </Modal>
+    )
   }
 
   @action
@@ -62,7 +99,10 @@ export class Content extends React.Component<{}, {}> {
         </div>
         <div className="content-data">
           {this.calendarMode ? (
-            null
+            <Calendar
+              data={this.data}
+              onObjectClick={null}
+            />
           ) : (
             <RegisterTable
               data={this.data}
